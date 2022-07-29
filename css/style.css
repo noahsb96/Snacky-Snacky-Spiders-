@@ -1,0 +1,59 @@
+body {
+    background-image: url(../Grass.jpg);
+    background-repeat: repeat;
+    justify-content: center;
+    font-family: 'Rubik', sans-serif
+}
+
+header {
+    text-align: center;
+    font-size: 36px;
+}
+
+.start-button {
+    padding: 0 30px;
+    color: black;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#player1score {
+    position: absolute;
+    left: 200px;
+    top: 100px;
+    font-weight: 600;
+}
+
+#player2score {
+    position: absolute;
+    right: 200px;
+    top: 100px;
+    font-weight: 600;
+}
+
+#player1 {
+    position: absolute;
+    height: 150px;
+    bottom: 0px;
+    left: 0px;
+    transform: rotate(180deg);
+}
+
+#player2 {
+    position: absolute;
+    height: 150px;
+    bottom: 0px;
+    right: 0px;
+    transform: rotate(180deg);
+}
+
+.hidden {
+    display: none !important;
+}
