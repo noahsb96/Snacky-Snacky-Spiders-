@@ -20,46 +20,11 @@ const player1score = document.querySelector('#player1score');
 const player2score = document.querySelector('#player2score');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
-
-class Image {
-    constructor(imagePath, xpos, ypos, width, height, speed) {
-        this.imagePath = imagePath;
-        this.xpos = xpos;
-        this.ypos = ypos;
-        this.width = width;
-        this.height = height;
-        this.speed = speed;
-    }
-
-    createImage(context, imagePath, xpos, ypos, width, height) {
-        let myImage = document.createElement('img');
-        myImage.src = imagePath;
-        myImage.onload = function() {
-            context.drawImage(myImage, xpos, ypos, width, height);
-        }
-    }
-
-    drawGrasshopper () {
-        canvas.style.width = document.body.clientWidth
-        canvas.style.height = document.body.clientHeight
-        const image = new Image('grasshopper.png', 50, 50, 80, 80);
-        createImage(context, image.imagePath, image.xpos, image.ypos, image.width, image.height);
-    }
-
-    update() {
-        this.drawGrasshopper()
-    }
-}
-
-let bugCounter = 1;
-
-let allBugs = [];
-
-let createGrasshopper = function(grasshopper) {
-    Image.draw(context);
-}
-
-for (let n)
+const bugArray = []
+const window_height = window.innerHeight
+const window_width = window.innerWidth
+canvas.width = window_width
+canvas.height = window_height
 
 function timer() {
     if (time > 0) {
@@ -68,17 +33,91 @@ function timer() {
     }
 }
 
-function startGame() {
-    let countdown = setInterval(() => {
-        timer()
-    }, 1000)
-    startButton.classList.add('hidden');
-    player1.classList.remove('hidden');
-    player2.classList.remove('hidden');
-    player1score.classList.remove('hidden');
-    player2score.classList.remove('hidden');
+const game = {
+    startGame() {
+        const bugs = setInterval(() => {
+            bugArray.push(new Bug)
+        }, 1000)     
+        setInterval(() => {
+            timer()
+        }, 1000)
+        startButton.classList.add('hidden');
+        player1.classList.remove('hidden');
+        player2.classList.remove('hidden');
+        player1score.classList.remove('hidden');
+        player2score.classList.remove('hidden');
+        canvas.classList.remove('hidden')
+    },
+    
+    clear() {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+    }
 }
 
-startButton.addEventListener('click', startGame);
+class Bug {
+    constructor() {
+        this.xpos = Math.floor(Math.random() * canvas.width)
+        this.ypos = 0
+        this.speed = 5
+        this.radius = 20
+        this.dy = 1 * this.speed
+    }
+
+    drawBug() {
+        context.fillStyle = '#008000'
+        context.beginPath()
+        context.arc(this.xpos, this.ypos, this.radius, 0, Math.PI * 2)
+        context.fill()
+        context.closePath()
+    }
+
+    update() {
+        this.drawBug()
+        this.ypos += this.dy
+    }
+}
+
+const bugMovement = () => {
+    bugArray.forEach((bug, index) => {
+        if(bug.ypos >= canvas.height) {
+            bugArray.splice(index, 1)
+        } else {
+            bug.update()
+        }
+    })
+}
+
+let updateBug = function() {
+    game.clear()
+    bugMovement()
+    requestAnimationFrame(updateBug)
+}
+
+startButton.addEventListener('click', game.startGame);
 startButton.addEventListener('click', timer);
-startButton.addEventListener('click', drawGrasshopper);
+startButton.addEventListener('click', updateBug)
+
+// class Bug {
+//     constructor() {
+//         this.imagePath = 'grasshopper.png';
+//         this.xpos = Math.random() * window_width;
+//         this.ypos = 50;
+//         this.width = 60;
+//         this.height = 60;
+//         this.speed = 5;
+//         this.dy = 1 * this.speed
+//     }
+
+//     createImage(context, imagePath, xpos, ypos, width, height) {
+//         let myImage = document.createElement('img');
+//         myImage.src = imagePath;
+//         myImage.onload = function() {
+//             context.drawImage(myImage, xpos, ypos, width, height,);
+//         }
+//     }
+
+//     update() {
+//         this.createImage(context, Bug.imagePath, Bug.xpos, Bug.ypos, Bug.width, Bug.height, Bug.speed)
+//         Bug.ypos += Bug.dy
+//     }
+// }
