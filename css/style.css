@@ -49,7 +49,6 @@ canvas {
     height: 150px;
     bottom: 0px;
     left: 0px;
-    transform: rotate(180deg);
 }
 
 #player2 {
@@ -57,7 +56,6 @@ canvas {
     height: 150px;
     bottom: 0px;
     right: 0px;
-    transform: rotate(180deg);
 }
 
 .hidden {
