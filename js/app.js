@@ -19,8 +19,8 @@ const bugImage = document.getElementById('bug')
 const h1 = document.querySelector('h1');
 const player1scoreText = document.querySelector('#player1score');
 const player2scoreText = document.querySelector('#player2score');
-const player1score = 0
-const player2score = 0
+let player1score = 0
+let player2score = 0
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const bugArray = []
@@ -33,16 +33,16 @@ const players = {
     firstPlayer: {
         width:150,
         height:150,
-        xpos:0,
-        ypos: canvas.height / 1.2,
+        xpos: 5,
+        ypos: Math.round(canvas.height / 1.2),
         speed: 5,
     },
     
     secondPlayer: {
         width:150,
         height:150,
-        xpos: canvas.width / 1.09,
-        ypos: canvas.height / 1.2,
+        xpos: Math.floor(Math.round(canvas.width / 5) * 5),
+        ypos: Math.round(canvas.height / 1.2),
         speed: 5,
     },
 
@@ -57,7 +57,7 @@ const players = {
 
 class Bug {
     constructor() {
-        this.xpos = Math.floor(Math.random() * canvas.width)
+        this.xpos = Math.floor(Math.random() * canvas.width / 5) * 5
         this.ypos = 0
         this.width = 60
         this.height = 60
@@ -183,7 +183,7 @@ function startGame() {
 
 function bugMovement () {
     bugArray.forEach((bug, index) => {
-        if (bug.ypos >= canvas.height) {
+        if (bug.ypos >= canvas.height || bug.xpos + bug.width > canvas.width) {
             bugArray.splice(index, 1)
         }
         else {
@@ -192,16 +192,16 @@ function bugMovement () {
     },
 
     bugArray.forEach((bug, index) => {
-        if (players.firstPlayer.xpos < bug.xpos && players.firstPlayer.xpos > bug.xpos && players.firstPlayer.ypos < bug.ypos && players.firstPlayer.ypos >= bug.ypos) {
+        if (players.firstPlayer.xpos == bug.xpos && players.firstPlayer.ypos < bug.ypos) {
                 bugArray.splice(index, 1)
                 player1score += 1
-                player1scoreText.innerHTML = `${player1scoreText}<br>${player1score}`
+                player1scoreText.innerHTML = `Player One Score<br>${player1score}`
         }
 
-        if (players.secondPlayer.xpos <= bug.xpos && players.secondPlayer.xpos >= bug.xpos && players.secondPlayer.ypos <= bug.ypos && players.secondPlayer.ypos >= bug.ypos) {
+        if (players.secondPlayer.xpos == bug.xpos && players.secondPlayer.ypos < bug.ypos) {
                 bugArray.splice(index, 1)
                 player2score += 1
-                player2scoreText.innerHTML = `${player2scoreText}<br>${player2score}`
+                player2scoreText.innerHTML = `Player 2 Score<br>${player2score}`
         }
     })
 )}
