@@ -191,13 +191,13 @@ function bugMovement () { // bug movement function
     },
 
     bugArray.forEach((bug, index) => { // for each bug in the bug array and it's corresponding index
-        if (players.firstPlayer.xpos == bug.xpos && players.firstPlayer.ypos < bug.ypos) { // if the first player's x position is equal to the bug's x position and the first player's y position is less than the bug's y position
+        if (players.firstPlayer.xpos + players.firstPlayer.width >= bug.xpos && players.firstPlayer.xpos <= bug.xpos + bug.width && players.firstPlayer.ypos <= bug.ypos + bug.height && players.firstPlayer.ypos >= bug.ypos) { // if the first player's x position is equal to the bug's x position and the first player's y position is less than the bug's y position
                 bugArray.splice(index, 1); // remove that bug from the bug array
                 player1score += 1; // increment player 1's score
                 player1scoreText.innerHTML = `Player One Score<br>${player1score}`; // change the player 1 score text to show the current player one score
         }
 
-        if (players.secondPlayer.xpos == bug.xpos && players.secondPlayer.ypos < bug.ypos) { // if the second player's x position is equal to the bug's xposition and the second player's y position is less than the bug's y position
+        if (players.secondPlayer.xpos + players.secondPlayer.width >= bug.xpos && players.secondPlayer.xpos <= bug.xpos + bug.width && players.secondPlayer.ypos <= bug.ypos + bug.height && players.secondPlayer.ypos >= bug.ypos) { // if the second player's x position is equal to the bug's xposition and the second player's y position is less than the bug's y position
                 bugArray.splice(index, 1); // remove that bug from the bug array
                 player2score += 1; // increment player 2's score by 1
                 player2scoreText.innerHTML = `Player 2 Score<br>${player2score}`; // change the player 2 score text to show the current player two score
