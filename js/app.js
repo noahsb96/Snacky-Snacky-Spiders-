@@ -11,13 +11,16 @@
     //alert pops up that declares the winner
 // game is reset
 
-let time = 60;
+let time = 61;
 const startButton = document.querySelector('.start-button');
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
+const bugImage = document.getElementById('bug')
 const h1 = document.querySelector('h1');
-const player1score = document.querySelector('#player1score');
-const player2score = document.querySelector('#player2score');
+const player1scoreText = document.querySelector('#player1score');
+const player2scoreText = document.querySelector('#player2score');
+const player1score = 0
+const player2score = 0
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const bugArray = []
@@ -34,6 +37,7 @@ const players = {
         ypos: canvas.height / 1.2,
         speed: 5,
     },
+    
     secondPlayer: {
         width:150,
         height:150,
@@ -42,10 +46,34 @@ const players = {
         speed: 5,
     },
 
-    drawPlayer(){
+    drawPlayerOne() {
         context.drawImage(player1, this.firstPlayer.xpos, this.firstPlayer.ypos, this.firstPlayer.width, this.firstPlayer.height)
-        context.drawImage(player2, this.secondPlayer.xpos, this.secondPlayer.ypos, this.secondPlayer.width, this.secondPlayer.height)
     },
+
+    drawPlayerTwo() {
+        context.drawImage(player2, this.secondPlayer.xpos, this.secondPlayer.ypos, this.secondPlayer.width, this.secondPlayer.height)
+    }
+}
+
+class Bug {
+    constructor() {
+        this.xpos = Math.floor(Math.random() * canvas.width)
+        this.ypos = 0
+        this.width = 60
+        this.height = 60
+        this.speed = 5
+        this.radius = 20
+        this.dy = 1 * this.speed
+    }
+
+    drawBug() {
+        context.drawImage(bugImage, this.xpos, this.ypos, this.width, this.height)
+    }
+
+    update() {
+        this.drawBug()
+        this.ypos += this.dy
+    }
 }
 
 let leftKeyPress = false;
@@ -112,15 +140,8 @@ function playerMove() {
     if(rightKeyPress) {
         players.secondPlayer.xpos += players.secondPlayer.speed
     }
+    
     rightWall()
-}
-
-let updateElements = function() {
-    game.clear()
-    players.drawPlayer()
-    playerMove()
-    bugMovement()
-    requestAnimationFrame(updateElements)
 }
 
 function timer() {
@@ -130,87 +151,78 @@ function timer() {
     }
 }
 
-const game = {
-    startGame() {
-        const bugs = setInterval(() => {
-            bugArray.push(new Bug)
-        }, 1000)     
-        setInterval(() => {
-            timer()
-        }, 1000)
-        startButton.classList.add('hidden');
-        player1score.classList.remove('hidden');
-        player2score.classList.remove('hidden');
-        canvas.classList.remove('hidden')
-    },
-    
-    clear() {
-        context.clearRect(0, 0, canvas.width, canvas.height)
+function win() {
+    if (player1score > player2score) {
+        alert('Player One Wins!')
+    }
+
+    if (player2score > player1score) {
+        alert('Player Two Wins!')
+    }
+
+    if (player1score == player2score) {
+        alert('No winner! Game is tied!')
     }
 }
 
-class Bug {
-    constructor() {
-        this.xpos = Math.floor(Math.random() * canvas.width)
-        this.ypos = 0
-        this.speed = 5
-        this.radius = 20
-        this.dy = 1 * this.speed
-    }
-
-    drawBug() {
-        context.fillStyle = '#008000'
-        context.beginPath()
-        context.arc(this.xpos, this.ypos, this.radius, 0, Math.PI * 2)
-        context.fill()
-        context.closePath()
-    }
-
-    update() {
-        this.drawBug()
-        this.ypos += this.dy
-    }
+function startGame() {
+    setInterval(() => {
+        bugArray.push(new Bug)
+    }, 1000)     
+    setInterval(() => {
+        timer()
+        if (time === 0) {
+            win()
+        }
+    }, 1000)
+    startButton.classList.add('hidden');
+    player1scoreText.classList.remove('hidden');
+    player2scoreText.classList.remove('hidden');
+    canvas.classList.remove('hidden')
 }
 
-const bugMovement = () => {
+function bugMovement () {
     bugArray.forEach((bug, index) => {
-        if(bug.ypos >= canvas.height) {
+        if (bug.ypos >= canvas.height) {
             bugArray.splice(index, 1)
-        } else {
+        }
+        else {
             bug.update()
+        }    
+    },
+
+    bugArray.forEach((bug, index) => {
+        if (players.firstPlayer.xpos < bug.xpos && players.firstPlayer.xpos > bug.xpos && players.firstPlayer.ypos < bug.ypos && players.firstPlayer.ypos >= bug.ypos) {
+                bugArray.splice(index, 1)
+                player1score += 1
+                player1scoreText.innerHTML = `${player1scoreText}<br>${player1score}`
+        }
+
+        if (players.secondPlayer.xpos <= bug.xpos && players.secondPlayer.xpos >= bug.xpos && players.secondPlayer.ypos <= bug.ypos && players.secondPlayer.ypos >= bug.ypos) {
+                bugArray.splice(index, 1)
+                player2score += 1
+                player2scoreText.innerHTML = `${player2scoreText}<br>${player2score}`
         }
     })
+)}
+    
+function clear() {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+}
+
+function updateElements() {
+    clear()
+    players.drawPlayerOne()
+    players.drawPlayerTwo()
+    playerMove()
+    bugMovement()
+    requestAnimationFrame(updateElements)
 }
 
 document.addEventListener('keydown', keyPressed)
 document.addEventListener('keyup', keyReleased)
 startButton.addEventListener('click', () => { 
-    game.startGame();
+    startGame();
     timer()
     updateElements()
 })
-
-// class Bug {
-//     constructor() {
-//         this.imagePath = 'grasshopper.png';
-//         this.xpos = Math.random() * window_width;
-//         this.ypos = 50;
-//         this.width = 60;
-//         this.height = 60;
-//         this.speed = 5;
-//         this.dy = 1 * this.speed
-//     }
-
-//     createImage(context, imagePath, xpos, ypos, width, height) {
-//         let myImage = document.createElement('img');
-//         myImage.src = imagePath;
-//         myImage.onload = function() {
-//             context.drawImage(myImage, xpos, ypos, width, height,);
-//         }
-//     }
-
-//     update() {
-//         this.createImage(context, Bug.imagePath, Bug.xpos, Bug.ypos, Bug.width, Bug.height, Bug.speed)
-//         Bug.ypos += Bug.dy
-//     }
-// }
