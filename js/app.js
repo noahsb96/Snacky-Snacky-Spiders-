@@ -166,7 +166,7 @@ function win() { // win function
 
 function startGame() { // start game function
     setInterval(() => { // every second
-        bugArray.push(new Bug()); // a new bug is pushed into the bug array
+        bugArray.push(new Bug(), new Bug()); // a new bug is pushed into the bug array
     }, 1000);    
     setInterval(() => { // every second
         timer(); // the timer is decreased by 1
