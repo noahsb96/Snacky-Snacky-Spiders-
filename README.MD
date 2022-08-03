@@ -1,7 +1,7 @@
 ## Project Choice
 Snacky Snacky Spiders
 ## Project Description
-Your tarantulas are hungry! They are engaging in a competition to determine who the alpha spider is. Player one has to use the left shift and z key and Player two has to use the right arrow and left arrow keys. Each spider moves side to side to determine which one gets the most crickets in the 60 second time period. Watch as your tarantulas devour crickets coming down the screen.
+Your tarantulas are hungry! They are engaging in a competition to determine who the alpha spider is. Player one has to use the c key and z key and Player two has to use the right arrow and left arrow keys. Each spider moves side to side to determine which one gets the most crickets in the 60 second time period. Watch as your tarantulas devour crickets coming down the screen.
 ## User Stories
 As player one, I would like to use the left shift and z key to move from the very left to the very right to catch as many crickets as possible
 As player two I would like to use the right and left arrow keys to move from the very right to the very left to catch as many crickets as possible
