@@ -33,16 +33,16 @@ const players = { // players objects
     firstPlayer: { // first player object
         width:150, // player picture width
         height:150, // player picture height
-        xpos: 5, // player picture starting x position
-        ypos: Math.round(canvas.height / 1.2), // player picture starting y position
+        xpos: 0, // player picture starting x position
+        ypos: canvas.height / 1.2, // player picture starting y position
         speed: 5, // player speed in animation
     },
     
     secondPlayer: { // second player object
         width:150, // player picture width
         height:150, // player picture height
-        xpos: Math.floor(Math.round(canvas.width / 5) * 5), // player picture x position
-        ypos: Math.round(canvas.height / 1.2), // player picture y position
+        xpos: canvas.width / 1.09, // player picture x position
+        ypos: canvas.height / 1.2, // player picture y position
         speed: 5, // player picture speed in animation
     },
 
@@ -57,7 +57,7 @@ const players = { // players objects
 
 class Bug { // bug class
     constructor() {
-        this.xpos = Math.floor(Math.random() * canvas.width / 5) * 5; // bug picture x position
+        this.xpos = Math.floor(Math.random() * canvas.width); // bug picture x position
         this.ypos = 0 ;// bug picture y position
         this.width = 60; // bug picture width
         this.height = 60; // bug picture height
