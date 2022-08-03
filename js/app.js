@@ -57,7 +57,7 @@ const players = { // players objects
 
 class Bug { // bug class
     constructor() {
-        this.xpos = Math.floor(Math.random() * canvas.width); // bug picture x position
+        this.xpos = Math.random() * canvas.width; // bug picture x position
         this.ypos = 0 ;// bug picture y position
         this.width = 60; // bug picture width
         this.height = 60; // bug picture height
